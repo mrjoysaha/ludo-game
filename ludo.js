@@ -12,7 +12,12 @@ const players = [
 let currentPlayerIndex = 0;
 let diceValue = 0;
 
-const safeCells = [5, 13];
+const safeCells = [
+0,
+5,
+8,
+13
+];
 
 const playerData = {
 
