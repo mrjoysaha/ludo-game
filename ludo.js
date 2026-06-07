@@ -2,6 +2,50 @@
    GAME DATA
 ========================== */
 
+
+function playDice(){
+
+const sound =
+document.getElementById(
+"diceSound"
+);
+
+if(sound){
+sound.currentTime = 0;
+sound.play();
+}
+
+}
+
+function playMove(){
+
+const sound =
+document.getElementById(
+"moveSound"
+);
+
+if(sound){
+sound.currentTime = 0;
+sound.play();
+}
+
+}
+
+function playWin(){
+
+const sound =
+document.getElementById(
+"winSound"
+);
+
+if(sound){
+sound.currentTime = 0;
+sound.play();
+}
+
+}
+
+
 const players = [
     "red",
     "green",
@@ -102,16 +146,19 @@ function updateTurnUI(){
 
 function nextTurn(){
 
-    currentPlayerIndex++;
+currentPlayerIndex++;
 
-    if(
-        currentPlayerIndex >=
-        players.length
-    ){
-        currentPlayerIndex = 0;
-    }
+if(
+currentPlayerIndex >=
+players.length
+){
+currentPlayerIndex = 0;
+}
 
-    updateTurnUI();
+updateTurnUI();
+
+aiMove();
+
 }
 
 /* ==========================
@@ -125,6 +172,7 @@ rollDice
 
 function rollDice(){
 
+   playDice();
     diceValue =
     Math.floor(
         Math.random()*6
@@ -196,7 +244,7 @@ function clearActiveTokens(){
    MOVE TOKEN
 ========================== */
 
-function moveToken(tokenId){
+function moveToken(playMove();){
 
     const player =
     players[currentPlayerIndex];
@@ -364,6 +412,29 @@ position
 
 }
 
+
+function aiMove(){
+
+if(
+players[currentPlayerIndex]
+!== "blue"
+){
+return;
+}
+
+setTimeout(()=>{
+
+rollDice();
+
+const token =
+playerData.blue.tokens[0];
+
+moveToken(token);
+
+},1000);
+
+}
+
 /* ==========================
    SEND TOKEN HOME
 ========================== */
@@ -453,37 +524,46 @@ function updateScores(){
 
 function checkWin(player){
 
-    const tokens =
-    playerData[player]
-    .tokens;
+const tokens =
+playerData[player]
+.tokens;
 
-    let completed = 0;
+let completed = 0;
 
-    tokens.forEach(token=>{
+tokens.forEach(token=>{
 
-        if(
-            tokenState[token]
-            >= 14
-        ){
-            completed++;
-        }
+if(
+tokenState[token]
+>= 14
+){
+completed++;
+}
 
-    });
+});
 
-    if(completed === 4){
+if(completed === 4){
 
-        alert(
-        player.toUpperCase()
-        +
-        " WINS!"
-        );
+playWin();
 
-        location.reload();
+document
+.getElementById(
+"winnerText"
+)
+.innerHTML =
+player.toUpperCase()
++
+" WINS! 🎉";
 
-    }
+document
+.getElementById(
+"winnerModal"
+)
+.style.display =
+"flex";
 
 }
 
+}
 /* ==========================
    START
 ========================== */
@@ -493,3 +573,10 @@ updateTurnUI();
 log(
 "Game Started!"
 );
+
+
+function restartGame(){
+
+location.reload();
+
+}
